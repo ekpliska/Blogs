@@ -4,7 +4,6 @@ use Yii;
 ?>
 <?php
 class BlogsController extends Controller {
-    
 }
 ?>
 

@@ -29,8 +29,13 @@ class Posts extends ActiveRecord {
         return $this->hasMany(Comments::className(), ['id_Comment' => 'idComment']);
     }
     
-    public function getTags(){
-        return $this->hasOne(Tags::className(), ['idTags' => 'id_Tags']);
+    public function getTagsPost(){
+        return $this->hasMany(Tags_p::className(), ['id_Post' => 'idPost']);
+    }
+    
+    // Tags.idTag => tags_p.id_Tag ; tags_p.id_Post => Tags.idTag
+    public function getTag(){
+        return $this->hasMany(Tags::className(), ['idTag' => 'id_Tag']) ->viaTable('{{%tags_p}}', ['id_Post' => 'idTag']);
     }
 }
 ?>

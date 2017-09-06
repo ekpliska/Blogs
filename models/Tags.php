@@ -16,9 +16,14 @@ class Tags extends ActiveRecord {
             [['nameTag', 'string', 'length' => [10, 30]]],
         ];
     }
-
-    public function getPosts(){
-        return $this->hasMany(Posts::className(), ['id_Post' => 'idPost']);
+    
+    public function getTagsP(){
+        return $this->hasMany(Tags_p::className(), ['id_Tag' => 'idTag']);
+    }
+    
+    // Posts.idPost => tags_p.id_Post ; tags_p.id_Tag => Posts.idPost
+    public function getPost(){
+        return $this->hasMany(Posts::className(), ['idPost' => 'id_Post']) ->viaTable('{{%tags_p}}', ['id_Tag' => 'idPost']);
     }
 }
 ?>

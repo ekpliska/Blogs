@@ -23,6 +23,6 @@ class Comments extends ActiveRecord {
     }
 
     public function getPosts(){
-        return $this->hasMany(Posts::className(), ['id_Comment' => 'idComment']);
+        return $this->hasOne(Posts::className(), ['idComment' => 'id_Comment']);
     }
 }
