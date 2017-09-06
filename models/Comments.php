@@ -25,4 +25,12 @@ class Comments extends ActiveRecord {
     public function getPosts(){
         return $this->hasOne(Posts::className(), ['idComment' => 'id_Comment']);
     }
+    
+    public function attributeLabels() {
+        return [
+            'autorComment' => \Yii::t('common', 'Author comment') ,
+            'dateComment' => \Yii::t('common', 'Date comment'),
+            'textComment' => \Yii::t('common', 'Comment'),
+        ];
+    }
 }

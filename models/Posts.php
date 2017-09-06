@@ -37,5 +37,15 @@ class Posts extends ActiveRecord {
     public function getTag(){
         return $this->hasMany(Tags::className(), ['idTag' => 'id_Tag']) ->viaTable('{{%tags_p}}', ['id_Post' => 'idTag']);
     }
+    
+    public function attributeLabels() {
+        return [
+            'autorPost' => \Yii::t('common', 'Author post'),
+            'titlePost' => \Yii::t('common', 'Title post'),
+            'datePost' => \Yii::t('common', 'Date post'),
+            'textPost' => \Yii::t('common', 'Text post'),
+            'id_Category' => \Yii::t('common', 'Category'),
+        ];
+    }
 }
 ?>

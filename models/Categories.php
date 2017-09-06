@@ -18,6 +18,12 @@ class Categories extends ActiveRecord {
     }
     public function getPosts(){
         return $this->hasMany(Posts::className(), ['id_Category' => 'idCategories']);
-    }    
+    }   
+    
+    public function attributeLabels() {
+        return [
+            'nameCategories' => \Yii::t('common', 'Category'),
+        ];
+    }
 }
 ?>
