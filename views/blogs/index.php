@@ -5,6 +5,6 @@
 <h4>Категории</h4>
 <?php
 foreach ($category as $n=>$cat) {
-    echo Html::a($cat->nameCategories, Url::to(['blogs/posts', 'id' => $cat->idCategories])).'<br/>';
+    echo Html::a($cat->nameCategories, Url::to(['blogs/posts', 'id_Category' => $cat->idCategories])).'<br/>';
 }
 ?>

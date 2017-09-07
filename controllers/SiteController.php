@@ -124,3 +124,83 @@ class SiteController extends Controller
         return $this->render('about');
     }
 }
+
+/*
+<?php
+use \yii\web\Controller;
+use \yii\base\HttpException;
+use app\models\Post;
+
+class SiteController extends Controller
+{
+	public function actionIndex()
+	{
+		$data = Post::find()->all();
+		echo $this->render('index', array(
+			'data' => $data
+		));
+	}
+	/**
+	public function actionCreate()
+	{
+		$model = new Post;
+		if ($this->populate($_POST, $model) && $model->save())
+			Yii::$app->response->redirect(array('site/read', 'id' => $model->id));
+		echo $this->render('create', array(
+			'model' => $model
+		));
+	}
+	public function actionUpdate($id=NULL)
+	{
+		if ($id === NULL)
+		{
+			Yii::$app->session->setFlash('error', 'A post with that id does not exist');
+			Yii::$app->getResponse()->redirect(array('site/index'));
+		}
+		$model = Post::find($id);
+		if ($model === NULL)
+		{
+			Yii::$app->session->setFlash('error', 'A post with that id does not exist');
+			Yii::$app->getResponse()->redirect(array('site/index'));
+		}
+		if ($this->populate($_POST, $model) && $model->save())
+			Yii::$app->response->redirect(array('site/read', 'id' => $model->id));
+		echo $this->render('create', array('model' => $model
+		));
+	}
+	public function actionRead($id=NULL)
+	{
+		if ($id === NULL)
+		{
+			Yii::$app->session->setFlash('error', 'A post with that id does not exist');
+			Yii::$app->getResponse()->redirect(array('site/index'));
+		}
+		$post = Post::find($id);
+		if ($post === NULL)
+		{
+			Yii::$app->session->setFlash('error', 'A post with that id does not exist');
+			Yii::$app->getResponse()->redirect(array('site/index'));
+		}
+		echo $this->render('read', array(
+			'post' => $post
+		));
+	}
+	public function actionDelete($id=NULL)
+	{
+		if ($id === NULL)
+		{
+			Yii::$app->session->setFlash('error', 'A post with that id does not exist');
+			Yii::$app->getResponse()->redirect(array('site/index'));
+		}
+		$post = Post::find($id);
+		if ($post === NULL)
+		{
+			Yii::$app->session->setFlash('error', 'A post with that id does not exist');
+			Yii::$app->getResponse()->redirect(array('site/index'));
+		}
+		$post->delete();
+		Yii::$app->session->setFlash('success', 'Your post has been successfully deleted');
+		Yii::$app->getResponse()->redirect(array('site/index'));
+	}
+}
+ */

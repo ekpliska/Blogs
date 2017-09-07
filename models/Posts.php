@@ -12,7 +12,7 @@ class Posts extends ActiveRecord {
 
     public function rules() {
         return [
-            [['autorPost', 'titlePost', 'textPost'], 'required'],
+            [['autorPost', 'titlePost', 'textPost', 'id_Category'], 'required'],
             [['datePost'], 'datetime'],
             [['autorPost', 'string', 'length' => [4, 50]]],
             [['autorPost', 'titlePost', 'textPost'], 'trim'],

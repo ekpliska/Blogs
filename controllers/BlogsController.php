@@ -1,8 +1,10 @@
 <?php
 namespace app\controllers;
+use Yii;
 use yii\web\Controller;
-use app\models\Categories;
 use app\models\Posts;
+use app\models\Categories;
+use \yii\web\NotFoundHttpException;
 ?>
 <?php
 class BlogsController extends Controller {
@@ -10,12 +12,17 @@ class BlogsController extends Controller {
         $category = Categories::find()->orderBy('nameCategories')->all();
         return $this->render('index', compact(['category']));
     }
-    public function actionPosts()
-    {
-        $post = Posts::find()->andWhere('id_Category = '.$_GET['id'])->all();
-        return $this->render('posts', compact(['post']));
+    public function actionPosts($id_Category) {
+        $category = Categories::findOne($id_Category);
+        $post = Posts::find()->where(['id_Category' => $id_Category]) -> all();
+        $count = Posts::find()->where(['id_Category' => $id_Category])->count();
+        if (!$category) {
+            throw new NotFoundHttpException ('Искомая категория не найденна');
+        }
+        else
+        {
+            return $this->render('posts', compact('post', 'count'));
+        }
     }
-    
 }
 ?>
-
