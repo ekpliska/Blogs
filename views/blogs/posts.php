@@ -1,18 +1,16 @@
 <?php
     use yii\helpers\Html;
-    use app\models\Posts;
-    use yii\web\Request;
-    use yii\widgets\ListView;    
+    use yii\helpers\Url;
 ?>
-<h4>В категории <?php ?> всего статей <?php echo $count; ?></h4>
+<h4>В категории <?php echo '';  ?> всего статей <?php echo ''; ?></h4>
 <br />
-<?php echo Html::a('Новая статья', array('blogs/newpost'), array('class' => 'btn btn-primary pull-right')); ?>
+<?php echo Html::a('Новая статья', array('/blogs/newpost'), array('class' => 'btn btn-primary pull-right')); ?>
 <br/>
 <?php
-    if ($count == 0) {
+/*    if ($count == 0) {
         echo 'В данной категории статьи отсутсвуют';
     }
- else{
+ else{ */
 ?>
 <table class="table table-striped table-hover">
 <?php foreach ($post as $pst): ?>
@@ -20,20 +18,24 @@
         <td>
             <?php echo ($pst->datePost); ?>
         </td>
-        <td>
-            <?php echo ($pst->titlePost); ?>
+        <td colspan="3">
+            <?php echo Html::a($pst->titlePost, Url::to(['blogs/showpost', 'idPost' => $pst->idPost])); ?>
         </td>
     </tr>
     <tr>
-        <td colspan="2">
+        <td colspan="4">
             <?php echo mb_substr($pst->textPost, 0, 100); ?>
         </td>
     </tr>
     <tr>
         <td>
+            Теги
+        </td>
+        <td>
             <?php echo ($pst->autorPost); ?>
         </td>
-        <td>Комментарии</td>        
+        <td>Комментарии</td>
+        <td><?php echo Html::a('Далее', Url::to(['blogs/showpost', 'idPost' => $pst->idPost])); ?></td>
     </tr>
- <?php endforeach;} ?>
+ <?php endforeach; ?>
 </table>

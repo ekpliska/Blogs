@@ -5,7 +5,7 @@ use yii\db\ActiveRecord;
 ?>
 <?php
 class Posts extends ActiveRecord {
-    
+
     public static function tableName() {
         return '{{%posts}}';
     }
@@ -13,10 +13,10 @@ class Posts extends ActiveRecord {
     public function rules() {
         return [
             [['autorPost', 'titlePost', 'textPost', 'id_Category'], 'required'],
-            [['datePost'], 'datetime'],
-            [['autorPost', 'string', 'length' => [4, 50]]],
+            //[['datePost'], 'datetime'],
+            [['autorPost'], 'string', 'min' => 4, 'max' => 50],
             [['autorPost', 'titlePost', 'textPost'], 'trim'],
-            [['autorPost', 'match', 'pattern' => '/^[a-z]\w*$/i']],
+            //[['autorPost'], 'match', 'pattern' => '/^[a-z]\w*$/i'],
         ];
     }
     

@@ -12,16 +12,38 @@ class BlogsController extends Controller {
         $category = Categories::find()->orderBy('nameCategories')->all();
         return $this->render('index', compact(['category']));
     }
-    public function actionPosts($id_Category) {
+    public function actionPosts($id_Category = null) {
         $category = Categories::findOne($id_Category);
-        $post = Posts::find()->where(['id_Category' => $id_Category]) -> all();
-        $count = Posts::find()->where(['id_Category' => $id_Category])->count();
-        if (!$category) {
+        if ($category === null) {
             throw new NotFoundHttpException ('Искомая категория не найденна');
         }
         else
         {
-            return $this->render('posts', compact('post', 'count'));
+            $post = $category->posts;
+            return $this->render('posts', compact(['post']));
+        }
+    }
+    public function actionNewpost (){
+        $formPost = new Posts();
+        if ($formPost->load(\Yii::$app->request->post())) {
+            if ($formPost->validate()) {
+                \Yii::$app->session->setFlash('success', 'Новая статья успешно создана');
+                $formPost->save();
+                return $this->refresh();
+            }
+            else {
+                \Yii::$app->session->setFlash('error', 'Ошибка создания новой статьи');
+            }
+        }            
+        return $this->render('newpost', compact(['formPost']));
+    }
+    public function actionShowpost($idPost = null){
+        $post = Posts::findOne($idPost);
+        if ($post === null) {
+            throw new NotFoundHttpException ('Искомая статья не найдена');
+        }
+        else {
+            return $this->render('showpost');            
         }
     }
 }
