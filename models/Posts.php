@@ -12,32 +12,38 @@ class Posts extends ActiveRecord {
 
     public function rules() {
         return [
-            [['autorPost', 'titlePost', 'textPost', 'id_Category'], 'required'],
-            //[['datePost'], 'datetime'],
+            [['autorPost', 'titlePost', 'textPost', 'id_Category', 'datePost'], 'required'],
+            [['datePost'], 'date', 'format' => 'php:Y-m-d', 'timestampAttribute' => 'datePost'],
             [['autorPost'], 'string', 'min' => 4, 'max' => 50],
             [['autorPost', 'titlePost', 'textPost'], 'trim'],
+            [['date'], 'safe']
             //[['autorPost'], 'match', 'pattern' => '/^[a-z]\w*$/i'],
         ];
     }
-    
-    
+
+    public function afterFind()
+    {
+        parent::afterFind();
+        $this->datePost = Yii::$app->formatter->asDate($this->datePost, 'php:d.m.Y');
+    }
+
     public function getCategories(){
         return $this->hasOne(Categories::className(), ['idCategories' => 'id_Categories']);
     }
-    
+
     public function getComments(){
         return $this->hasMany(Comments::className(), ['id_Comment' => 'idComment']);
     }
-    
+
     public function getTagsPost(){
         return $this->hasMany(Tags_p::className(), ['id_Post' => 'idPost']);
     }
-    
+
     // Tags.idTag => tags_p.id_Tag ; tags_p.id_Post => Tags.idTag
     public function getTag(){
         return $this->hasMany(Tags::className(), ['idTag' => 'id_Tag']) ->viaTable('{{%tags_p}}', ['id_Post' => 'idTag']);
     }
-    
+
     public function attributeLabels() {
         return [
             'autorPost' => \Yii::t('common', 'Author post'),

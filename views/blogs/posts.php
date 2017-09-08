@@ -1,8 +1,9 @@
 <?php
+    use app\models\Categories;
     use yii\helpers\Html;
     use yii\helpers\Url;
 ?>
-<h4>В категории <?php echo '';  ?> всего статей <?php echo ''; ?></h4>
+<h4>В категории <?php echo ''; ?> всего статей <?php echo '' ?></h4>
 <br />
 <?php echo Html::a('Новая статья', array('/blogs/newpost'), array('class' => 'btn btn-primary pull-right')); ?>
 <br/>

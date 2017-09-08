@@ -4,6 +4,7 @@ use Yii;
 use yii\web\Controller;
 use app\models\Posts;
 use app\models\Categories;
+use app\models\Comments;
 use \yii\web\NotFoundHttpException;
 ?>
 <?php
@@ -25,25 +26,48 @@ class BlogsController extends Controller {
     }
     public function actionNewpost (){
         $formPost = new Posts();
-        if ($formPost->load(\Yii::$app->request->post())) {
+        if ($formPost->load(Yii::$app->request->post())) {
             if ($formPost->validate()) {
-                \Yii::$app->session->setFlash('success', 'Новая статья успешно создана');
+                Yii::$app->session->setFlash('success', 'Новая статья успешно создана');
                 $formPost->save();
                 return $this->refresh();
             }
             else {
-                \Yii::$app->session->setFlash('error', 'Ошибка создания новой статьи');
+                Yii::$app->session->setFlash('error', 'Ошибка создания новой статьи');
             }
-        }            
+        }
         return $this->render('newpost', compact(['formPost']));
     }
     public function actionShowpost($idPost = null){
-        $post = Posts::findOne($idPost);
-        if ($post === null) {
+        $postshow = Posts::findOne($idPost);
+        $formAddComm = new Comments();
+        $commentshow = Comments::find()->where(['id_Post' => $idPost])->all();
+        if ($postshow === null) {
             throw new NotFoundHttpException ('Искомая статья не найдена');
         }
         else {
-            return $this->render('showpost');            
+            if ($formAddComm->load(Yii::$app->request->post())){
+                if ($formAddComm->validate()) {
+                    Yii::$app->session->setFlash('success', 'Комментарий добавлен успешно');
+                    $formAddComm->save();
+                    return $this->refresh();
+                }
+                else {
+                    Yii::$app->session->setFlash('error', 'Ошибка добавления комменрария');
+                }
+            }
+            return $this->render('showpost', compact(['postshow', 'formAddComm', 'commentshow']));
+        }
+    }
+    public function actionEditpost ($idPost = null){
+        $editPst = Posts::findOne($idPost);
+        $editForm = new Posts();
+        if ($editPst === null) {
+            throw new NotFoundHttpException ('Искомая статья не найденна');
+        }
+        else
+        {
+            return $this->render('editpost', compact(['editPst', 'editForm']));
         }
     }
 }

@@ -5,27 +5,25 @@ use yii\db\ActiveRecord;
 ?>
 <?php
 class Comments extends ActiveRecord {
-    
+
     public static function tableName() {
         return '{{%comments}}';
     }
-    
+
     public function rules() {
         return [
-            [['autorComment', 'textComment', 'dateComment'], 'required'],
+            [['autorComment', 'textComment', 'id_Post', 'idComment', 'dateComment'], 'required'],
             [['autorComment', 'textComment'], 'trim'],
-            [['dateComment'], 'date'],
-            [['autorComment', 'string', 'length' => [4, 50]]],
-            [['textComment', 'string', 'length' => [5, 1000]]],
-            [['autorComment', 'textComment'], 'trim'],
-            [['autorComment', 'match', 'pattern' => '/^[a-z]\w*$/i']],            
+            [['autorComment'], 'string', 'min' => 4, 'max' => 50],
+            [['textComment'], 'string', 'min' => 5, 'max' => 255],
+            //[['dateComment'], 'datetime'],
         ];
     }
 
     public function getPosts(){
         return $this->hasOne(Posts::className(), ['idComment' => 'id_Comment']);
     }
-    
+
     public function attributeLabels() {
         return [
             'autorComment' => \Yii::t('common', 'Author comment') ,
