@@ -12,8 +12,9 @@ class Comments extends ActiveRecord {
 
     public function rules() {
         return [
-            [['autorComment', 'textComment', 'id_Post', 'idComment', 'dateComment'], 'required'],
+            [['autorComment', 'textComment', 'id_Post', 'dateComment'], 'required'],
             [['autorComment', 'textComment'], 'trim'],
+            [['dateComment'], 'date', 'format' => 'php:Y-m-d', 'timestampAttribute' => 'dateComment'],
             [['autorComment'], 'string', 'min' => 4, 'max' => 50],
             [['textComment'], 'string', 'min' => 5, 'max' => 255],
             //[['dateComment'], 'datetime'],

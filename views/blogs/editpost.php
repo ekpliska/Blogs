@@ -10,5 +10,5 @@
 
 <?php if(Yii::$app->session->hasFlash('error'))
     echo Yii::$app->session->getFlash('error',false); ?>
-<h4>Новая статья</h4>
-<?php echo $this->render('_form', ['formPost' => $editPst]);
+<div class="page-header"><h4>Редактировать статью</h4></div>
+<?php echo $this->render('_form', ['formPost' => $editPst]);?>

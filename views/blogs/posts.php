@@ -1,42 +1,47 @@
 <?php
     use app\models\Categories;
+    use app\models\Comments;
     use yii\helpers\Html;
     use yii\helpers\Url;
 ?>
-<h4>В категории <?php echo ''; ?> всего статей <?php echo '' ?></h4>
+<div class="page-header">
+    <h4>
+        <?php echo Html::a('Категории', Url::to(['blogs/index'])); ?>
+        <?php echo $category->nameCategories; ?> (<?php echo (count($post)) ?>)
+    </h4>
+</div>
 <br />
 <?php echo Html::a('Новая статья', array('/blogs/newpost'), array('class' => 'btn btn-primary pull-right')); ?>
 <br/>
-<?php
-/*    if ($count == 0) {
+<?php if (count($post) == 0):
         echo 'В данной категории статьи отсутсвуют';
-    }
- else{ */
-?>
-<table class="table table-striped table-hover">
-<?php foreach ($post as $pst): ?>
+ else: ?>
+ <?php foreach ($post as $pst): ?>
+<table class="table">
     <tr>
-        <td>
-            <?php echo ($pst->datePost); ?>
+        <td rowspan="3" width="15%">
+            <?php echo Yii::$app->formatter->asDate($pst->datePost); ?>
         </td>
-        <td colspan="3">
+        <td colspan="2">
             <?php echo Html::a($pst->titlePost, Url::to(['blogs/showpost', 'idPost' => $pst->idPost])); ?>
         </td>
     </tr>
     <tr>
-        <td colspan="4">
+        <td colspan="2"><?php echo ($pst->autorPost); ?></td>
+    </tr>
+    <tr>
+        <td colspan="2">
             <?php echo mb_substr($pst->textPost, 0, 100); ?>
         </td>
     </tr>
     <tr>
         <td>
-            Теги
+            <span class="label label-success">Теги</span>
         </td>
         <td>
-            <?php echo ($pst->autorPost); ?>
+            <span class="label label-success">Комментарии <?php echo (Comments::find()->where(['id_Post' => $pst->idPost])->count()) ?></span>
         </td>
-        <td>Комментарии</td>
         <td><?php echo Html::a('Далее', Url::to(['blogs/showpost', 'idPost' => $pst->idPost])); ?></td>
     </tr>
- <?php endforeach; ?>
 </table>
+ <?php endforeach; endif; ?>
