@@ -13,7 +13,7 @@ class Tags extends ActiveRecord {
     public function rules() {
         return [
             [['nameTag'], 'required'],
-            [['nameTag', 'string', 'length' => [10, 30]]],
+            [['nameTag'], 'string', 'min' => 10, 'max' => 30],
         ];
     }
 

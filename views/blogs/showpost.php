@@ -21,16 +21,27 @@
     <tr>
         <td colspan="3">
             <?php echo Html::a('Редактировать', Url::to(['blogs/editpost', 'idPost' => $postshow->idPost]), array('class' => 'btn btn-link pull-right')); ?>
-            <?php echo Html::a('Удалить', array(''), array('class' => 'btn btn-link pull-right')); ?>
-            <?php echo Html::a('Назад', array(''), array ('class' => 'btn btn-link pull-right')); ?>
+            <?php echo Html::a('Удалить', Url::to(['blogs/deletepost', 'idPost' => $postshow->idPost]), array('class' => 'btn btn-link pull-right')); ?>
+            <?php echo Html::a('Назад', Url::to(['blogs/posts', 'id_Category' => $postshow->id_Category]), array ('class' => 'btn btn-link pull-right')); ?>
         </td>
     </tr>
-    <tr><td colspan="3">
-        <?php if(Yii::$app->session->hasFlash('success'))
-            echo Yii::$app->session->getFlash('success',false) ?>
-        <?php if(Yii::$app->session->hasFlash('error'))
-            echo Yii::$app->session->getFlash('error',false); ?>
-    </td></td>
+    <tr>
+        <td colspan="3">
+            <?php if(Yii::$app->session->hasFlash('success')) : ?>
+            <div class="alert alert-info">
+                <strong>
+                    <?php echo Yii::$app->session->getFlash('success',false) ?>
+                </strong>
+            </div>
+            <?php endif; ?>
+            <?php if(Yii::$app->session->hasFlash('error')) : ?>
+                <div class="alert alert-info">
+                    <strong>
+                        <?php echo Yii::$app->session->getFlash('error',false); ?>
+                    </strong>
+            <?php endif; ?>
+        </td>
+    </tr>
 </table>
 <div class="well">
 <!-- Вывод формы комментария -->
@@ -70,8 +81,8 @@
   <div class="panel-body">
         <?php echo Yii::$app->formatter->asDate($com->dateComment); ?>
         <?php echo ($com->autorComment); ?>
-        <?php echo Html::a('Редактировать', array(''), array('class' => 'btn btn-link pull-right')); ?>
-        <?php echo Html::a('Удалить', array(''), array ('class' => 'btn btn-link pull-right')); ?>
+        <?php echo Html::a('Редактировать', Url::to(['blogs/editcomment', 'idComment' => $com->idComment]), array ('class' => 'btn btn-link pull-right')); ?>
+        <?php echo Html::a('Удалить', Url::to(['blogs/deletecom', 'id_Comment' => $com->idComment]), array('class' => 'btn btn-link pull-right')); ?>
     </div>
 <div class="panel-footer">
   <?php echo ($com->textComment); ?></div>

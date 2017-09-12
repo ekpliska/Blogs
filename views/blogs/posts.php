@@ -42,6 +42,7 @@
             <span class="label label-success">Комментарии <?php echo (Comments::find()->where(['id_Post' => $pst->idPost])->count()) ?></span>
         </td>
         <td><?php echo Html::a('Далее', Url::to(['blogs/showpost', 'idPost' => $pst->idPost])); ?></td>
+        
     </tr>
 </table>
  <?php endforeach; endif; ?>
