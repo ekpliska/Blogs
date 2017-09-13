@@ -57,4 +57,13 @@ return array (
       '@yii/jui' => $vendorDir . '/yiisoft/yii2-jui',
     ),
   ),
+  '2amigos/yii2-transliterator-helper' => 
+  array (
+    'name' => '2amigos/yii2-transliterator-helper',
+    'version' => '1.0.0.0',
+    'alias' => 
+    array (
+      '@dosamigos/transliterator' => $vendorDir . '/2amigos/yii2-transliterator-helper',
+    ),
+  ),
 );

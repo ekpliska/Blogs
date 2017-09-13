@@ -12,8 +12,9 @@
 ?>
 <?php
 class BlogsController extends Controller {
-// Просмотр всех категорий + создание новой категории
-    public function actionIndex(){
+
+    // Просмотр всех категорий + создание новой категории
+    public function actionIndex () {
         $category = Categories::find()->orderBy('nameCategories')->all();
         $newCats = new Categories();
         if ($newCats->load(Yii::$app->request->post())) {
@@ -28,9 +29,10 @@ class BlogsController extends Controller {
         }
         return $this->render('index', compact(['category', 'newCats']));
     }
-// Просмотр статей по выбранной категории
-    public function actionPosts($id_Category = null) {
-        $category = Categories::findOne($id_Category);
+
+    //Просмотр статей по выбранной категории
+    public function actionPosts ($slug = null) {
+        $category = Categories::findOne(['slug' => $slug]);
         if ($category === null) {
             throw new NotFoundHttpException ('Искомая категория не найденна');
         }
@@ -40,8 +42,9 @@ class BlogsController extends Controller {
             return $this->render('posts', compact(['post','category']));
         }
     }
-// Новая статья
-    public function actionNewpost (){
+
+    // Новая статья
+    public function actionNewpost () {
         $formPost = new Posts();
         $formTags = new Tags();
         $showTags = Tags::find()->orderBy('nameTag')->all();
@@ -50,7 +53,7 @@ class BlogsController extends Controller {
                 Yii::$app->session->setFlash('success', 'Новая статья успешно создана');
                 $formPost->save();
                 //return $this->refresh();
-                return $this->redirect(['showpost', 'idPost' => $formPost->idPost]);
+                return $this->redirect(['showpost', 'slug' => $formPost->slug]);
             }
             else {
                 Yii::$app->session->setFlash('error', 'Ошибка создания новой статьи');
@@ -58,11 +61,11 @@ class BlogsController extends Controller {
         }
         return $this->render('newpost', compact(['formPost', 'showTags', 'formTags']));
     }
-// Просмотр статьи + добаление нового комментария +  просмотр всех коментариев
-    public function actionShowpost($idPost = null){
-        $postshow = Posts::findOne($idPost);
+
+    // Просмотр статьи + добаление нового комментария +  просмотр всех коментариев
+    public function actionShowpost ($slug = null) {
+        $postshow = Posts::findOne(['slug' => $slug]);
         $formAddComm = new Comments();
-        $commentshow = Comments::find()->where(['id_Post' => $idPost])->all();
         if ($postshow === null) {
             throw new NotFoundHttpException ('Искомая статья не найдена');
         }
@@ -77,32 +80,33 @@ class BlogsController extends Controller {
                 Yii::$app->session->setFlash('error', 'Ошибка добавления нового комментария');
             }
         }
-
-            return $this->render('showpost', compact(['postshow', 'formAddComm', 'commentshow']));
+        return $this->render('showpost', compact(['postshow', 'formAddComm', /* 'commentshow'*/]));
         }
     }
-// Редактирование статьи
-    public function actionEditpost ($idPost = null){
-        $editPst = Posts::findOne($idPost);
+
+    // Редактирование статьи
+    public function actionEditpost ($slug = null) {
+        $editPst = Posts::findOne(['slug' => $slug]);
         if ($editPst === null) {
             throw new NotFoundHttpException ('Искомая статья не найденна');
         }
         else
         {
             if ($editPst->load(Yii::$app->request->post()) && $editPst->save()) {
-                return $this->redirect(['showpost', 'idPost' => $editPst->idPost]);
+                return $this->redirect(['showpost', 'slug' => $editPst->slug]);
             }
             return $this->render('editpost', compact(['editPst', 'editForm']));
         }
     }
-// Удаление категории
-    public function actionDeletecat ($id_Category = null) {
-        if ($id_Category === null)
+
+    // Удаление категории
+    public function actionDeletecat ($slug = null) {
+        if ($slug === null)
   		{
     		Yii::$app->session->setFlash('error', 'Удаляемая категория не найдена');
     		Yii::$app->getResponse()->redirect(array('blogs/index'));
   		}
-  		$cats = Categories::findOne($id_Category);
+  		$cats = Categories::findOne(['slug' => $slug]);
         $post = $cats->posts;
    		if ($cats === null || count($post) <> 0)
    		{
@@ -115,12 +119,13 @@ class BlogsController extends Controller {
       		Yii::$app->getResponse()->redirect(array('blogs/index'));
         }
   	}
-// Удаление комментария
+
+    // Удаление комментария
     public function actionDeletecom ($id_Comment = null) {
         $comments = Comments::findOne($id_Comment);
         if ($id_Comment === null) {
             Yii::$app->session->setFlash ('error', 'Выбранный комментарий удалить невозможно');
-            Yii::$app->getResponse()->redirect(array('blog/showpost', 'idPost' => $comments->id_Post));
+            Yii::$app->getResponse()->redirect(array('blog/showpost', 'slug' => $comments->id_Post));
         }
         else {
             $comments->delete();
@@ -128,7 +133,8 @@ class BlogsController extends Controller {
             Yii::$app->getResponse()->redirect(array('blogs/showpost', 'idPost' => $comments->id_Post));
         }
     }
-// Редактирование комментария
+
+    // Редактирование комментария
     public function actionEditcomment ($idComment = null) {
         $editCom = Comments::findOne($idComment);
         if ($editCom === null) {
@@ -142,24 +148,24 @@ class BlogsController extends Controller {
             return $this->render('editcomment', compact(['editCom']));
         }
     }
-// Удаление статьи и комментариев к ней
-    public function actionDeletepost ($idPost = null) {
-        $delpost = Posts::findOne($idPost);
-        $delcom = Comments::find()->where(['id_Post' => $idPost])->all();
+
+    // Удаление статьи и комментариев к ней
+    public function actionDeletepost ($slug = null) {
+        $delpost = Posts::findOne(['slug' => $slug]);
         if ($delpost === null) {
              Yii::$app->session->setFlash('error', 'Удаляемая статья не найдена');
-             Yii::$app->getResponse()->redirect(array('blogs/showpost', 'idPost' => $idPost));
+             Yii::$app->getResponse()->redirect(array('blogs/showpost', 'slug' => $slug));
         }
         else {
             $delpost->delete();
-            Comments::deleteAll(['id_Post' => $idPost]);
             Yii::$app->session->setFlash('success', 'Статья и закрепленные за ней комментарии были удалены');
             Yii::$app->getResponse()->redirect(array('blogs/index'));
         }
     }
-// Редактирование категории
-    public function actionEditCat ($id_Category = null) {
-        $editCtg = Categories::findOne($id_Category);
+
+    // Редактирование категории
+    public function actionEditCat ($slug = null) {
+        $editCtg = Categories::findOne(['slug' => $slug]);
         if ($editCtg === null) {
             throw new NotFoundHttpException ('Искомая категория не найденна');
         }
@@ -172,7 +178,5 @@ class BlogsController extends Controller {
             return $this->render('editcat', compact(['editCtg']));
         }
     }
-// Вывод тегов
-//        public function actionShowtags ()
 }
 ?>

@@ -1,6 +1,7 @@
 <?php
-use yii\bootstrap\Html;
-
+    use yii\bootstrap\Html;
+?>
+<?php
 if(\Yii::$app->language == 'ru'):
     echo Html::a('Go to English', array_merge(
         \Yii::$app->request->get(),

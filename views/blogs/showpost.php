@@ -7,6 +7,7 @@
     use yii\widgets\ActiveForm;
     use yii\jui\DatePicker;
 ?>
+<?php $this->title = "Блог :: Статья" ?>
 <!-- Вывод статьи -->
 <div class="page-header"><h4>Статья от <?= $postshow->autorPost ?></h4></div>
 <table   class="table">
@@ -20,9 +21,16 @@
     </tr>
     <tr>
         <td colspan="3">
-            <?php echo Html::a('Редактировать', Url::to(['blogs/editpost', 'idPost' => $postshow->idPost]), array('class' => 'btn btn-link pull-right')); ?>
-            <?php echo Html::a('Удалить', Url::to(['blogs/deletepost', 'idPost' => $postshow->idPost]), array('class' => 'btn btn-link pull-right')); ?>
-            <?php echo Html::a('Назад', Url::to(['blogs/posts', 'id_Category' => $postshow->id_Category]), array ('class' => 'btn btn-link pull-right')); ?>
+            <?php echo Html::a('Редактировать', Url::to(['blogs/editpost', 'slug' => $postshow->slug]), array('class' => 'btn btn-link pull-right')); ?>
+            <?php echo Html::a('Удалить', Url::to(['blogs/deletepost', 'slug' => $postshow->slug]), [
+                                'class' => 'btn btn-link pull-right',
+                                'data' => [
+                                    'confirm' => Yii::t('common', 'Delete post?'),
+                                    'method' => 'post',
+                                ],
+                            ]);
+            ?>
+            <?php echo Html::a('Назад', Url::to(['blogs/posts', 'slug' => $namec->slug]), array ('class' => 'btn btn-link pull-right')); ?>
         </td>
     </tr>
     <tr>
@@ -43,8 +51,8 @@
         </td>
     </tr>
 </table>
-<div class="well">
 <!-- Вывод формы комментария -->
+<div class="well">
 <?php $formcomm = ActiveForm::begin(['options' => ['id' => 'newcom', 'class' => 'form-horizontalp']]) ?>
 <table>
     <caption><span class="label label-default">Добавить комментарий</span></caption>
@@ -76,13 +84,21 @@
 <?php ActiveForm::end(); ?>
 <!-- Вывод комментариев к статье -->
 <div class="page-header"><h4><span class="label label-primary">Комментарии к статье</span></h4></div>
+<?php $commentshow = Comments::find()->where(['id_Post' => $postshow->idPost])->all(); ?>
 <?php foreach ($commentshow as $com): ?>
 <div class="panel panel-default">
   <div class="panel-body">
         <?php echo Yii::$app->formatter->asDate($com->dateComment); ?>
         <?php echo ($com->autorComment); ?>
         <?php echo Html::a('Редактировать', Url::to(['blogs/editcomment', 'idComment' => $com->idComment]), array ('class' => 'btn btn-link pull-right')); ?>
-        <?php echo Html::a('Удалить', Url::to(['blogs/deletecom', 'id_Comment' => $com->idComment]), array('class' => 'btn btn-link pull-right')); ?>
+        <?php echo Html::a('Удалить', Url::to(['blogs/deletecom', 'id_Comment' => $com->idComment]), [
+                            'class' => 'btn btn-link pull-right',
+                                'data' => [
+                                    'confirm' => Yii::t('common', 'Delete commnts?'),
+                                    'method' => 'post',
+                                ],
+                            ]);
+        ?>
     </div>
 <div class="panel-footer">
   <?php echo ($com->textComment); ?></div>

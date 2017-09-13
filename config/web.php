@@ -8,7 +8,8 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'sourceLanguage' => 'en',
-    'language' => 'ru',
+    'language' => 'en',
+    'defaultRoute' => 'blogs',
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -40,6 +41,17 @@ $config = [
                 ],
             ],
         ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            //'enableStrictParsing' => false,
+            'rules' => [
+                'category/<slug:[A-Za-z0-9 -_.]+>' => 'blogs/posts',
+                'category' => 'blogs/index',
+                '<controller>/<action>/<slug:[A-Za-z0-9 -_.]+>' => '<controller>/<action>',
+                //'blogs/showpost/<slug:[A-Za-z0-9 -_.]+>' => 'blogs/showpost',
+            ]
+        ],
         'i18n' => [
             'translations' => [
                 'common*' => [
@@ -49,14 +61,6 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
-        ],
-        */
     ],
     'params' => $params,
 ];

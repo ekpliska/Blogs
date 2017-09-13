@@ -30,6 +30,10 @@ class ComposerStaticInit68c94e42f50541d1d3e60ac880e10fd4
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
+        'd' => 
+        array (
+            'dosamigos\\transliterator\\' => 25,
+        ),
         'c' => 
         array (
             'cebe\\markdown\\' => 14,
@@ -114,6 +118,10 @@ class ComposerStaticInit68c94e42f50541d1d3e60ac880e10fd4
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+        ),
+        'dosamigos\\transliterator\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/2amigos/yii2-transliterator-helper',
         ),
         'cebe\\markdown\\' => 
         array (

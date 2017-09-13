@@ -1,9 +1,13 @@
 <?php
     use app\models\Categories;
     use app\models\Comments;
+    use app\models\Posts;
+    use app\models\Tags_p;
+    use app\models\Tags;
     use yii\helpers\Html;
     use yii\helpers\Url;
 ?>
+<?php $this->title = "Блог :: Статьи" ?>
 <div class="page-header">
     <h4>
         <?php echo Html::a('Категории', Url::to(['blogs/index'])); ?>
@@ -23,7 +27,7 @@
             <?php echo Yii::$app->formatter->asDate($pst->datePost); ?>
         </td>
         <td colspan="2">
-            <?php echo Html::a($pst->titlePost, Url::to(['blogs/showpost', 'idPost' => $pst->idPost])); ?>
+            <?php echo Html::a($pst->titlePost, Url::to(['blogs/showpost', 'slug' => $pst->slug])); ?>
         </td>
     </tr>
     <tr>
@@ -36,13 +40,17 @@
     </tr>
     <tr>
         <td>
-            <span class="label label-success">Теги</span>
+            <?php
+                $tags = Tags_p::find()->where(['id_Post' => $pst->idPost])->all();
+                foreach ($tags as $tag) : ?>
+                    <span class="label label-success"><?php echo $tag->tag->nameTag ?></span>
+                <?php endforeach;  ?>
         </td>
         <td>
             <span class="label label-success">Комментарии <?php echo (Comments::find()->where(['id_Post' => $pst->idPost])->count()) ?></span>
         </td>
-        <td><?php echo Html::a('Далее', Url::to(['blogs/showpost', 'idPost' => $pst->idPost])); ?></td>
-        
+        <td><?php echo Html::a('Далее', Url::to(['blogs/showpost', 'slug' => $pst->slug])); ?></td>
+
     </tr>
 </table>
  <?php endforeach; endif; ?>

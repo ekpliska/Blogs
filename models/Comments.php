@@ -21,8 +21,8 @@ class Comments extends ActiveRecord {
         ];
     }
 
-    public function getPosts(){
-        return $this->hasOne(Posts::className(), ['idComment' => 'id_Comment']);
+    public function getComments(){
+        return $this->hasOne(Posts::className(), ['id_Post' => 'idPost']);
     }
 
     public function attributeLabels() {

@@ -7,7 +7,8 @@
 <table>
     <tr>
         <td><?= $formcat->field($newCats, 'nameCategories')->textInput(); ?></td>
-        <td><?= Html::submitButton($newCats->isNewRecord ? 'Создать' : 'Сохранить', ['class' => 'btn btn-link pull-left']) ?></td>
+        <td><?= Html::submitButton($newCats->isNewRecord ? Yii::t('common', 'Create') : Yii::t('common', 'Save'), ['class' => 'btn btn-link pull-left']) ?></td>
+        <td rowspan="2"><?= $formcat->field($newCats, 'slug')->hiddenInput()->label(''); ?></td>
     </tr>
 </table>
 <?php ActiveForm::end(); ?>

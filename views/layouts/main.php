@@ -68,7 +68,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?> | <?php //$this->render('/views/layouts/main/select-language') ?></p>
+        <p class="pull-left">&copy; My Company <?= date('Y') ?> | <?= $this->render('main/select-language') ?></p>
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
 </footer>
