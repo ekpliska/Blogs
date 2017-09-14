@@ -2,13 +2,9 @@
     use yii\widgets\ActiveForm;
     use yii\helpers\ArrayHelper;
     use yii\helpers\Html;
-<<<<<<< HEAD
     use yii\helpers\CHtml;
     use app\models\Categories;
     use app\models\Tags;
-=======
-    use app\models\Categories;
->>>>>>> 40210ab142eb019795a239e310090ff54ff4f53f
     use yii\jui\DatePicker;
 ?>
 
@@ -42,7 +38,6 @@
     </tr>
     <tr>
         <td colspan="2">
-<<<<<<< HEAD
             <?= $form->field($formPost, 'selectTagID')->checkboxList(Tags::find()->select('nameTag')->indexBy('idTag')->column());?>
         </td>
     <tr>
@@ -54,11 +49,6 @@
         <td colspan="2">
             <?= $form->field($formPost, 'slug')->hiddenInput()->label('');; ?>
     </tr>
-=======
-            <?= Html::submitButton($formPost->isNewRecord ? 'Создать' : 'Сохранить', ['class'=>'btn btn-primary pull-right', 'name' => 'c']) ?>
-        </td>
-    </tr>
->>>>>>> 40210ab142eb019795a239e310090ff54ff4f53f
     <!--pre>
         <?php //print_r($formPost->datePost) ?>
     </pre -->

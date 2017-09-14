@@ -1,5 +1,4 @@
 <?php
-<<<<<<< HEAD
     namespace app\models;
     use Yii;
     use yii\db\ActiveRecord;
@@ -8,14 +7,6 @@
 <?php
 class Posts extends ActiveRecord {
     public $_selectTagID = array();
-=======
-namespace app\models;
-use Yii;
-use yii\db\ActiveRecord;
-?>
-<?php
-class Posts extends ActiveRecord {
->>>>>>> 40210ab142eb019795a239e310090ff54ff4f53f
 
     public static function tableName() {
         return '{{%posts}}';
@@ -37,17 +28,12 @@ class Posts extends ActiveRecord {
             [['datePost'], 'date', 'format' => 'php:Y-m-d', 'timestampAttribute' => 'datePost'],
             [['autorPost'], 'string', 'min' => 4, 'max' => 50],
             [['autorPost', 'titlePost', 'textPost'], 'trim'],
-<<<<<<< HEAD
             [['date'], 'safe'],
             [['selectTagID'], 'safe'],
-=======
-            [['date'], 'safe']
->>>>>>> 40210ab142eb019795a239e310090ff54ff4f53f
             //[['autorPost'], 'match', 'pattern' => '/^[a-z]\w*$/i'],
         ];
     }
 
-<<<<<<< HEAD
     public function setSelectTagID ($idTags) {
         $this->_selectTagID = (array) $idTags;
     }
@@ -79,9 +65,6 @@ class Posts extends ActiveRecord {
         Tags_p::deleteAll(['id_Post' => $this->idPost]);
     }
 
-
-=======
->>>>>>> 40210ab142eb019795a239e310090ff54ff4f53f
     public function afterFind()
     {
         parent::afterFind();
@@ -96,21 +79,13 @@ class Posts extends ActiveRecord {
     //     return $this->hasMany(Comments::className(), ['idComment' => 'id_Comment']);
     // }
 
-<<<<<<< HEAD
     public function getTags_p(){
-=======
-    public function getTagsPost(){
->>>>>>> 40210ab142eb019795a239e310090ff54ff4f53f
         return $this->hasMany(Tags_p::className(), ['id_Post' => 'idPost']);
     }
 
     // Tags.idTag => tags_p.id_Tag ; tags_p.id_Post => Tags.idTag
     public function getTag(){
-<<<<<<< HEAD
         return $this->hasMany(Tags::className(), ['idTag' => 'id_Tag']) -> viaTable('{{%tags_p}}', ['id_Post' => 'idPost']);
-=======
-        return $this->hasMany(Tags::className(), ['idTag' => 'id_Tag']) ->viaTable('{{%tags_p}}', ['id_Post' => 'idTag']);
->>>>>>> 40210ab142eb019795a239e310090ff54ff4f53f
     }
 
     public function attributeLabels() {
@@ -120,22 +95,8 @@ class Posts extends ActiveRecord {
             'datePost' => \Yii::t('common', 'Date post'),
             'textPost' => \Yii::t('common', 'Text post'),
             'id_Category' => \Yii::t('common', 'Category'),
-<<<<<<< HEAD
             'selectTag' => \Yii::t('common', 'Select tags')
         ];
     }
 }
-// public function getPhotoAlbums()
-// {
-//     return $this->hasMany(PhotoAlbums::className(), ['photo_id' => 'photo_id']);
-// }
-// public function getAlbums()
-// {
-//     return $this->hasMany(Albums::className(), ['Album_id' => 'Album_id'])->viaTable('photo_album', ['photo_id' => 'photo_id']);
-// }
-=======
-        ];
-    }
-}
->>>>>>> 40210ab142eb019795a239e310090ff54ff4f53f
 ?>
